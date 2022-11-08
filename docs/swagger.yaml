@@ -6,7 +6,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: do ping
+      description: do test
       produces:
       - application/json
       responses:

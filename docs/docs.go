@@ -18,7 +18,7 @@ const docTemplate = `{
     "paths": {
         "/": {
             "get": {
-                "description": "do ping",
+                "description": "do test",
                 "consumes": [
                     "application/json"
                 ],

@@ -5,7 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	docs "github.com/serhatbxld/arf-case/docs"
+	docs "serhatbxld/arf-case/docs"
+
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
