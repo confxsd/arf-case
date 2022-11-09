@@ -1,11 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
 	docs "serhatbxld/arf-case/docs"
+	util "serhatbxld/arf-case/util"
+
+	"github.com/rs/zerolog/log"
 
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -38,6 +42,14 @@ func setupRouter() *gin.Engine {
 }
 
 func main() {
+	config, err := util.LoadConfig(".")
+
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot load config")
+	}
+
+	fmt.Print(config)
+
 	r := setupRouter()
 	docs.SwaggerInfo.BasePath = "/"
 
