@@ -3,9 +3,9 @@ FROM golang:1.19-alpine
 # Set destination for COPY
 WORKDIR /app
 
+ADD . /app
+
 # Download Go modules
-COPY go.mod .
-COPY go.sum .
 RUN go mod download
 
 # Copy the source code. Note the slash at the end, as explained in

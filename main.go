@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -42,13 +41,11 @@ func setupRouter() *gin.Engine {
 }
 
 func main() {
-	config, err := util.LoadConfig(".")
+	_, err := util.LoadConfig(".")
 
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot load config")
 	}
-
-	fmt.Print(config)
 
 	r := setupRouter()
 	docs.SwaggerInfo.BasePath = "/"
