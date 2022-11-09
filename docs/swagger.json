@@ -3,7 +3,6 @@
     "info": {
         "contact": {}
     },
-    "basePath": "/",
     "paths": {
         "/": {
             "get": {

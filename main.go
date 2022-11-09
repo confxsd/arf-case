@@ -1,54 +1,44 @@
 package main
 
 import (
-	"net/http"
+	"database/sql"
 
-	"github.com/gin-gonic/gin"
-
-	docs "serhatbxld/arf-case/docs"
+	api "serhatbxld/arf-case/api"
 	util "serhatbxld/arf-case/util"
 
 	"github.com/rs/zerolog/log"
 
-	swaggerfiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
+	db "serhatbxld/arf-case/db/sqlc"
+
+	_ "github.com/lib/pq"
 )
 
-// @BasePath /
+func runGinServer(config util.Config, store db.Store) {
+	server, err := api.NewServer(config, store)
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot create server")
+	}
 
-// ArfCase godoc
-// @Summary index sample
-// @Schemes
-// @Description do test
-// @Tags example
-// @Accept json
-// @Produce json
-// @Success 200 {string} voila
-// @Router / [get]
-func getting(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{
-		"message": "voila",
-	})
-}
-
-func setupRouter() *gin.Engine {
-	r := gin.Default()
-
-	r.GET("/", getting)
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-
-	return r
+	err = server.Start(config.HTTPServerAddress)
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot start server")
+	}
 }
 
 func main() {
-	_, err := util.LoadConfig(".")
-
+	config, err := util.LoadConfig(".")
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot load config")
 	}
 
-	r := setupRouter()
-	docs.SwaggerInfo.BasePath = "/"
+	dbSource := `postgresql://` + config.DBUser + `:` + config.DBPassword + `@localhost:5432/` + config.DBName + `?sslmode=disable`
+	conn, err := sql.Open("postgres", dbSource)
 
-	r.Run() // listen and serve on 8080
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot connect db")
+	}
+
+	store := db.NewStore(conn)
+
+	runGinServer(config, store)
 }
