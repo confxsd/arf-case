@@ -10,6 +10,11 @@ import (
 
 	db "serhatbxld/arf-case/db/sqlc"
 
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
+	_ "github.com/golang-migrate/migrate/v4/source/github"
+
 	_ "github.com/lib/pq"
 )
 
@@ -25,6 +30,31 @@ func runGinServer(config util.Config, store db.Store) {
 	}
 }
 
+func runDBMigration(migrationURL string, dbSource string) {
+
+	// driver, err := postgres.WithInstance(conn, &postgres.Config{})
+	// m, err := migrate.NewWithDatabaseInstance(
+	// 	"file://db/migration",
+	// 	"postgres", driver)
+	// if err != nil {
+	// 	log.Fatal().Err(err).Msg("cannot create new migrate instance")
+	// }
+	// if err = m.Up(); err != nil && err != migrate.ErrNoChange {
+	// 	log.Fatal().Err(err).Msg("failed to run migrate up")
+	// }
+
+	migration, err := migrate.New(migrationURL, dbSource)
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot create new migrate instance")
+	}
+
+	if err = migration.Up(); err != nil && err != migrate.ErrNoChange {
+		log.Fatal().Err(err).Msg("failed to run migrate up")
+	}
+
+	log.Info().Msg("db migrated successfully")
+}
+
 func main() {
 	config, err := util.LoadConfig(".")
 	if err != nil {
@@ -37,6 +67,8 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot connect db")
 	}
+
+	runDBMigration(config.MigrationURL, dbSource)
 
 	store := db.NewStore(conn)
 
