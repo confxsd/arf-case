@@ -15,6 +15,10 @@ COPY *.go ./
 # Build
 RUN go build -o /arfcase
 
+COPY app.env .
+COPY db/migration ./db/migration
+
+
 # This is for documentation purposes only.
 # To actually open the port, runtime parameters
 # must be supplied to the docker command.

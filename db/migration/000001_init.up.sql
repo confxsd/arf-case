@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id UUID NOT NULL DEFAULT (uuid_generate_v4()),
+    id BIGINT not NULL,
     username text NOT NULL,
     password text NOT NULL
 );

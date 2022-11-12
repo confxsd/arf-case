@@ -14,7 +14,7 @@ type Config struct {
 	DBUser               string        `mapstructure:"POSTGRES_USER"`
 	DBPassword           string        `mapstructure:"POSTGRES_PASSWORD"`
 	DBName               string        `mapstructure:"POSTGRES_DB"`
-	DBSource             string        `mapstructure:"DB_SOURCE"`
+	DBPort               string        `mapstructure:"POSTGRES_PORT"`
 	MigrationURL         string        `mapstructure:"MIGRATION_URL"`
 	HTTPServerAddress    string        `mapstructure:"HTTP_SERVER_ADDRESS"`
 	TokenSymmetricKey    string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
