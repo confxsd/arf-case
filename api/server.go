@@ -64,6 +64,7 @@ func (server *Server) setupRouter() {
 
 	r.GET("/", getting)
 	r.POST("/users", server.createUser)
+	r.POST("/auth", server.auth)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	server.router = r
