@@ -29,7 +29,7 @@ func randomUser(t *testing.T) (user db.User) {
 }
 
 func (e eqCreateUserParamsMatcher) Matches(x interface{}) bool {
-	arg, ok := x.(db.User)
+	arg, ok := x.(db.CreateUserParams)
 	if !ok {
 		return false
 	}
@@ -43,7 +43,7 @@ func (e eqCreateUserParamsMatcher) Matches(x interface{}) bool {
 }
 
 type eqCreateUserParamsMatcher struct {
-	arg      db.User
+	arg      db.CreateUserParams
 	password string
 }
 
@@ -51,7 +51,7 @@ func (e eqCreateUserParamsMatcher) String() string {
 	return fmt.Sprintf("matches arg %v and password %v", e.arg, e.password)
 }
 
-func EqCreateUserParams(arg db.User, password string) gomock.Matcher {
+func EqCreateUserParams(arg db.CreateUserParams, password string) gomock.Matcher {
 	return eqCreateUserParamsMatcher{arg, password}
 }
 
@@ -71,7 +71,7 @@ func TestCreateUserAPI(t *testing.T) {
 				"password": user.Password,
 			},
 			buildStubs: func(store *mockdb.MockStore) {
-				arg := db.User{
+				arg := db.CreateUserParams{
 					Username: user.Username,
 					Password: user.Password,
 				}
