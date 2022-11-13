@@ -1,3 +1,20 @@
+definitions:
+  api.createUserRequest:
+    properties:
+      password:
+        minLength: 6
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  api.userResponse:
+    properties:
+      username:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -16,4 +33,26 @@ paths:
       summary: index sample
       tags:
       - example
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Create user with username & password
+      parameters:
+      - description: Create user params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/api.createUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.userResponse'
+      summary: Create user
+      tags:
+      - user
 swagger: "2.0"

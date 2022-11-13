@@ -23,6 +23,18 @@ func newUserResponse(user db.User) userResponse {
 	}
 }
 
+// @BasePath /
+
+// ArfCase godoc
+// @Summary Create user
+// @Schemes
+// @Description Create user with username & password
+// @Tags user
+// @Accept json
+// @Param request body api.createUserRequest true "Create user params"
+// @Produce json
+// @Success 200 {object} api.userResponse
+// @Router /users [post]
 func (server *Server) createUser(ctx *gin.Context) {
 	var req createUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
