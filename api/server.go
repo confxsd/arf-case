@@ -57,6 +57,12 @@ func getting(ctx *gin.Context) {
 	})
 }
 
+func protected(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "protected voila",
+	})
+}
+
 func (server *Server) setupRouter() {
 	r := gin.Default()
 
@@ -66,6 +72,9 @@ func (server *Server) setupRouter() {
 	r.POST("/users", server.createUser)
 	r.POST("/auth", server.auth)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+
+	authRoutes := r.Group("/").Use(authMiddleware(server.tokenMaker))
+	authRoutes.GET("/me", protected)
 
 	server.router = r
 }
