@@ -5,3 +5,6 @@ build:
 
 up:
 	docker compose --env-file ./app.env up
+
+newmig:
+	migrate create -ext sql -dir db/migration -seq $(name)
