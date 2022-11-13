@@ -11,11 +11,18 @@ import (
 )
 
 type Querier interface {
+	AddWalletBalance(ctx context.Context, arg AddWalletBalanceParams) (Wallet, error)
 	CreateSession(ctx context.Context, arg CreateSessionParams) (Session, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
+	CreateWallet(ctx context.Context, arg CreateWalletParams) (Wallet, error)
+	DeleteWallet(ctx context.Context, id int64) error
 	GetSession(ctx context.Context, id uuid.UUID) (Session, error)
 	GetUser(ctx context.Context, id int64) (User, error)
 	GetUserByUsername(ctx context.Context, username string) (User, error)
+	GetWallet(ctx context.Context, id int64) (Wallet, error)
+	GetWalletForUpdate(ctx context.Context, id int64) (Wallet, error)
+	ListWallets(ctx context.Context, arg ListWalletsParams) ([]Wallet, error)
+	UpdateWallet(ctx context.Context, arg UpdateWalletParams) (Wallet, error)
 }
 
 var _ Querier = (*Queries)(nil)

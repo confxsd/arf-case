@@ -107,3 +107,107 @@ func (mr *MockStoreMockRecorder) GetSession(arg0, arg1 interface{}) *gomock.Call
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSession", reflect.TypeOf((*MockStore)(nil).GetSession), arg0, arg1)
 }
+
+// CreateWallet mocks base method
+func (m *MockStore) CreateWallet(arg0 context.Context, arg1 db.CreateWalletParams) (db.Wallet, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateWallet", arg0, arg1)
+	ret0, _ := ret[0].(db.Wallet)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateWallet indicates an expected call of CreateWallet
+func (mr *MockStoreMockRecorder) CreateWallet(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateWallet", reflect.TypeOf((*MockStore)(nil).CreateWallet), arg0, arg1)
+}
+
+// AddWalletBalance mocks base method
+func (m *MockStore) AddWalletBalance(arg0 context.Context, arg1 db.AddWalletBalanceParams) (db.Wallet, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddWalletBalance", arg0, arg1)
+	ret0, _ := ret[0].(db.Wallet)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddWalletBalance indicates an expected call of AddWalletBalance
+func (mr *MockStoreMockRecorder) AddWalletBalance(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddWalletBalance", reflect.TypeOf((*MockStore)(nil).AddWalletBalance), arg0, arg1)
+}
+
+// DeleteWallet mocks base method
+func (m *MockStore) DeleteWallet(arg0 context.Context, arg1 int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteWallet", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteWallet indicates an expected call of DeleteWallet
+func (mr *MockStoreMockRecorder) DeleteWallet(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteWallet", reflect.TypeOf((*MockStore)(nil).DeleteWallet), arg0, arg1)
+}
+
+// GetWallet mocks base method
+func (m *MockStore) GetWallet(arg0 context.Context, arg1 int64) (db.Wallet, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWallet", arg0, arg1)
+	ret0, _ := ret[0].(db.Wallet)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWallet indicates an expected call of GetWallet
+func (mr *MockStoreMockRecorder) GetWallet(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWallet", reflect.TypeOf((*MockStore)(nil).GetWallet), arg0, arg1)
+}
+
+// GetWalletForUpdate mocks base method
+func (m *MockStore) GetWalletForUpdate(arg0 context.Context, arg1 int64) (db.Wallet, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWalletForUpdate", arg0, arg1)
+	ret0, _ := ret[0].(db.Wallet)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWalletForUpdate indicates an expected call of GetWalletForUpdate
+func (mr *MockStoreMockRecorder) GetWalletForUpdate(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWalletForUpdate", reflect.TypeOf((*MockStore)(nil).GetWalletForUpdate), arg0, arg1)
+}
+
+// ListWallets mocks base method
+func (m *MockStore) ListWallets(arg0 context.Context, arg1 db.ListWalletsParams) ([]db.Wallet, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListWallets", arg0, arg1)
+	ret0, _ := ret[0].([]db.Wallet)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListWallets indicates an expected call of ListWallets
+func (mr *MockStoreMockRecorder) ListWallets(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListWallets", reflect.TypeOf((*MockStore)(nil).ListWallets), arg0, arg1)
+}
+
+// UpdateWallet mocks base method
+func (m *MockStore) UpdateWallet(arg0 context.Context, arg1 db.UpdateWalletParams) (db.Wallet, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateWallet", arg0, arg1)
+	ret0, _ := ret[0].(db.Wallet)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateWallet indicates an expected call of UpdateWallet
+func (mr *MockStoreMockRecorder) UpdateWallet(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWallet", reflect.TypeOf((*MockStore)(nil).UpdateWallet), arg0, arg1)
+}

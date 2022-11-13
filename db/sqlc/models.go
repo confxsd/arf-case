@@ -26,3 +26,11 @@ type User struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+
+type Wallet struct {
+	ID        int64     `json:"id"`
+	UserID    int64     `json:"user_id"`
+	Balance   int64     `json:"balance"`
+	Currency  string    `json:"currency"`
+	CreatedAt time.Time `json:"created_at"`
+}
