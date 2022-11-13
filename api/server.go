@@ -55,6 +55,7 @@ func (server *Server) setupRouter() {
 	docs.SwaggerInfo.BasePath = "/"
 
 	r.GET("/", getting)
+	r.POST("/users", server.createUser)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	server.router = r
