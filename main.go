@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 
 	api "serhatbxld/arf-case/api"
@@ -43,6 +44,60 @@ func runDBMigration(migrationURL string, dbSource string) {
 	log.Info().Msg("db migrated successfully")
 }
 
+func createSystemUser(ctx context.Context, config util.Config, store db.Store) error {
+	arg := db.CreateUserParams{
+		Username: config.SystemUsername,
+		Password: config.SystemPassword,
+	}
+
+	gotUser, err := store.GetUserByUsername(ctx, config.SystemUsername)
+	if err != nil {
+		user, err := store.CreateUser(ctx, arg)
+
+		if err != nil {
+			log.Fatal().Err(err).Msg("cannot create system user")
+			return err
+		}
+
+		log.Info().Msg("system user created succesfully")
+
+		wallets := []db.CreateWalletParams{
+			{
+				UserID:   user.ID,
+				Balance:  100000,
+				Currency: util.USD,
+			},
+			{
+				UserID:   user.ID,
+				Balance:  100000,
+				Currency: util.EUR,
+			},
+			{
+				UserID:   user.ID,
+				Balance:  100000,
+				Currency: util.TRY,
+			},
+		}
+
+		for _, w := range wallets {
+			_, err := store.CreateWallet(ctx, w)
+			if err != nil {
+				log.Fatal().Err(err).Msg("cannot create wallet")
+			}
+		}
+
+		log.Info().Msg("system user wallets created succesfully")
+
+		return nil
+	}
+
+	if gotUser.Username != "" {
+		log.Info().Msg("system user already created, skipping initialization")
+	}
+
+	return nil
+}
+
 func main() {
 	config, err := util.LoadConfig(".")
 	if err != nil {
@@ -59,6 +114,9 @@ func main() {
 	runDBMigration(config.MigrationURL, dbSource)
 
 	store := db.NewStore(conn)
+
+	// first time initialization, skips safely if system user available
+	createSystemUser(context.Background(), config, store)
 
 	runGinServer(config, store)
 }
