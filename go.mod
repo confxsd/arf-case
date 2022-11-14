@@ -14,6 +14,8 @@ require (
 	github.com/swaggo/swag v1.8.7
 )
 
+require gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
+
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
@@ -26,7 +28,8 @@ require (
 	github.com/go-openapi/swag v0.22.3 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/go-playground/validator/v10 v10.11.1 // indirect
+	github.com/go-playground/validator v9.31.0+incompatible
+	github.com/go-playground/validator/v10 v10.11.1
 	github.com/goccy/go-json v0.9.11 // indirect
 	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.2 // indirect

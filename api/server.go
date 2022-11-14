@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 
 	db "serhatbxld/arf-case/db/sqlc"
 	docs "serhatbxld/arf-case/docs"
@@ -34,6 +36,10 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 		config:     config,
 		store:      store,
 		tokenMaker: tokenMaker,
+	}
+
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterValidation("currency", validCurrency)
 	}
 
 	server.setupRouter()
@@ -75,6 +81,7 @@ func (server *Server) setupRouter() {
 
 	authRoutes := r.Group("/").Use(authMiddleware(server.tokenMaker))
 	authRoutes.GET("/me", protected)
+	authRoutes.POST("/wallets", server.createWallet)
 
 	server.router = r
 }
