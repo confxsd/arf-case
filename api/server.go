@@ -82,6 +82,7 @@ func (server *Server) setupRouter() {
 	authRoutes := r.Group("/").Use(authMiddleware(server.tokenMaker))
 	authRoutes.GET("/me", protected)
 	authRoutes.POST("/wallets", server.createWallet)
+	authRoutes.GET("/wallets", server.listWallets)
 
 	server.router = r
 }
