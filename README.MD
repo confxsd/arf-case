@@ -14,4 +14,6 @@ This project provides services which users are able to login with their credenti
 
 ## [How to start](#how-to-start)
 
+First provide an `app.env` file. Use the `sample.env` format.
+
 Run `make build` to build the project with `docker-compose`, then `make up` to run it.
