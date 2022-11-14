@@ -13,6 +13,19 @@ type createWalletRequest struct {
 	Currency string `json:"currency" binding:"required,currency"`
 }
 
+// @BasePath /
+
+// ArfCase godoc
+// @Summary Create wallet
+// @Schemes
+// @Description Create wallet for the user
+// @Tags wallet
+// @Accept json
+// @Param Authorization header string true "With the bearer started"
+// @Param request body api.createWalletRequest true "Create wallet params"
+// @Produce json
+// @Success 201 {object} db.Wallet
+// @Router /wallets [post]
 func (server *Server) createWallet(ctx *gin.Context) {
 	var req createWalletRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -53,6 +66,20 @@ type listWalletRequest struct {
 	PageSize int32 `form:"page_size" binding:"required,min=5,max=10"`
 }
 
+// @BasePath /
+
+// ArfCase godoc
+// @Summary List wallets
+// @Schemes
+// @Description List wallets of the user
+// @Tags wallet
+// @Accept json
+// @Param Authorization header string true "With the bearer started"
+// @Param page_id query integer false "Page Id"
+// @Param page_size query integer false "Page Size"
+// @Produce json
+// @Success 200 {array} arfcasesqlc.Wallet
+// @Router /wallets [get]
 func (server *Server) listWallets(ctx *gin.Context) {
 	var req listWalletRequest
 	if err := ctx.ShouldBindQuery(&req); err != nil {
