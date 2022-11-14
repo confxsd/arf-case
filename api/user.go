@@ -33,7 +33,7 @@ func newUserResponse(user db.User) userResponse {
 // @Accept json
 // @Param request body api.createUserRequest true "Create user params"
 // @Produce json
-// @Success 200 {object} api.userResponse
+// @Success 201 {object} api.userResponse
 // @Router /users [post]
 func (server *Server) createUser(ctx *gin.Context) {
 	var req createUserRequest
