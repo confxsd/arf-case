@@ -10,6 +10,16 @@ import (
 	"github.com/google/uuid"
 )
 
+type Offer struct {
+	ID           int64     `json:"id"`
+	UserID       int64     `json:"user_id"`
+	FromCurrency string    `json:"from_currency"`
+	ToCurrency   string    `json:"to_currency"`
+	Amount       int64     `json:"amount"`
+	Status       string    `json:"status"`
+	CreatedAt    time.Time `json:"created_at"`
+}
+
 type Session struct {
 	ID           uuid.UUID `json:"id"`
 	Username     string    `json:"username"`

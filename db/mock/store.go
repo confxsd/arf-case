@@ -211,3 +211,18 @@ func (mr *MockStoreMockRecorder) UpdateWallet(arg0, arg1 interface{}) *gomock.Ca
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWallet", reflect.TypeOf((*MockStore)(nil).UpdateWallet), arg0, arg1)
 }
+
+// CreateOffer mocks base method
+func (m *MockStore) CreateOffer(arg0 context.Context, arg1 db.CreateOfferParams) (db.Offer, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateOffer", arg0, arg1)
+	ret0, _ := ret[0].(db.Offer)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateOffer indicates an expected call of CreateOffer
+func (mr *MockStoreMockRecorder) CreateOffer(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateOffer", reflect.TypeOf((*MockStore)(nil).CreateOffer), arg0, arg1)
+}
