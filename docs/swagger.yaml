@@ -1,4 +1,30 @@
 definitions:
+  api.authUserRequest:
+    properties:
+      password:
+        minLength: 6
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  api.authUserResponse:
+    properties:
+      access_token:
+        type: string
+      access_token_expires_at:
+        type: string
+      refresh_token:
+        type: string
+      refresh_token_expires_at:
+        type: string
+      session_id:
+        type: string
+      user:
+        $ref: '#/definitions/api.userResponse'
+    type: object
   api.createUserRequest:
     properties:
       password:
@@ -33,6 +59,28 @@ paths:
       summary: index sample
       tags:
       - example
+  /auth:
+    post:
+      consumes:
+      - application/json
+      description: Auth user & return session token (jwt)
+      parameters:
+      - description: Auth user params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/api.authUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.authUserResponse'
+      summary: Auth user
+      tags:
+      - user
   /users:
     post:
       consumes:

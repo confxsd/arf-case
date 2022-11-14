@@ -24,6 +24,18 @@ type authUserResponse struct {
 	User                  userResponse `json:"user"`
 }
 
+// @BasePath /
+
+// ArfCase godoc
+// @Summary Auth user
+// @Schemes
+// @Description Auth user & return session token (jwt)
+// @Tags user
+// @Accept json
+// @Param request body api.authUserRequest true "Auth user params"
+// @Produce json
+// @Success 200 {object} api.authUserResponse
+// @Router /auth [post]
 func (server *Server) auth(ctx *gin.Context) {
 	var req authUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
