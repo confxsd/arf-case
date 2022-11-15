@@ -71,3 +71,31 @@ func (q *Queries) GetOffer(ctx context.Context, id int64) (Offer, error) {
 	)
 	return i, err
 }
+
+const updateOffer = `-- name: UpdateOffer :one
+UPDATE offers
+SET status = $2
+WHERE id = $1
+RETURNING id, user_id, from_currency, to_currency, amount, rate, status, created_at
+`
+
+type UpdateOfferParams struct {
+	ID     int64  `json:"id"`
+	Status string `json:"status"`
+}
+
+func (q *Queries) UpdateOffer(ctx context.Context, arg UpdateOfferParams) (Offer, error) {
+	row := q.db.QueryRowContext(ctx, updateOffer, arg.ID, arg.Status)
+	var i Offer
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.FromCurrency,
+		&i.ToCurrency,
+		&i.Amount,
+		&i.Rate,
+		&i.Status,
+		&i.CreatedAt,
+	)
+	return i, err
+}

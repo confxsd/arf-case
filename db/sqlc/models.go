@@ -36,7 +36,7 @@ type Transfer struct {
 	ID           int64     `json:"id"`
 	FromWalletID int64     `json:"from_wallet_id"`
 	ToWalletID   int64     `json:"to_wallet_id"`
-	Amount       int64     `json:"amount"`
+	Amount       float64   `json:"amount"`
 	CreatedAt    time.Time `json:"created_at"`
 }
 
@@ -49,7 +49,7 @@ type User struct {
 type Wallet struct {
 	ID        int64     `json:"id"`
 	UserID    int64     `json:"user_id"`
-	Balance   int64     `json:"balance"`
+	Balance   float64   `json:"balance"`
 	Currency  string    `json:"currency"`
 	CreatedAt time.Time `json:"created_at"`
 }

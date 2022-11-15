@@ -102,6 +102,11 @@ func (server *Server) approveOffer(ctx *gin.Context) {
 		return
 	}
 
+	if offer.Status == "completed" {
+		ctx.JSON(http.StatusForbidden, gin.H{"msg": "this offer already approved"})
+		return
+	}
+
 	now := time.Now().UTC()
 
 	// offers are valid for 3 minutes
@@ -110,9 +115,92 @@ func (server *Server) approveOffer(ctx *gin.Context) {
 		return
 	}
 
+	userFromWallet, err := server.store.GetWalletByUserIdAndCurrency(ctx, db.GetWalletByUserIdAndCurrencyParams{
+		UserID:   offer.UserID,
+		Currency: offer.FromCurrency,
+	})
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	userToWallet, err := server.store.GetWalletByUserIdAndCurrency(ctx, db.GetWalletByUserIdAndCurrencyParams{
+		UserID:   offer.UserID,
+		Currency: offer.ToCurrency,
+	})
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	systemUser, err := server.store.GetUserByUsername(ctx, server.config.SystemUsername)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	toSystemWallet, err := server.store.GetWalletByUserIdAndCurrency(ctx, db.GetWalletByUserIdAndCurrencyParams{
+		UserID:   systemUser.ID,
+		Currency: offer.ToCurrency,
+	})
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	fromSystemWallet, err := server.store.GetWalletByUserIdAndCurrency(ctx, db.GetWalletByUserIdAndCurrencyParams{
+		UserID:   systemUser.ID,
+		Currency: offer.FromCurrency,
+	})
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	requiredAmountToTransferFromUser := determineTransferAmounts(offer.FromCurrency, offer.ToCurrency, offer.Rate)
+
+	// TODO: they should be executed in a single transaction
+	result1, err := server.store.TransferTx(ctx, db.TransferTxParams{
+		FromWalletID: userFromWallet.ID,
+		ToWalletID:   toSystemWallet.ID,
+		Amount:       requiredAmountToTransferFromUser,
+	})
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	result2, err := server.store.TransferTx(ctx, db.TransferTxParams{
+		FromWalletID: fromSystemWallet.ID,
+		ToWalletID:   userToWallet.ID,
+		Amount:       offer.Amount,
+	})
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	updatedOffer, err := server.store.UpdateOffer(ctx, db.UpdateOfferParams{
+		ID:     offer.ID,
+		Status: "completed",
+	})
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "voila",
-		"id":      request.ID,
+		"result1":      result1,
+		"result2":      result2,
+		"updatedOffer": updatedOffer,
 	})
 }
 
@@ -148,36 +236,38 @@ func checkOfferValid(ctx context.Context, arg db.CreateOfferParams, store db.Sto
 		return errors.New("From & To currencies same, cannot convert.")
 	}
 
-	userWallets, err := store.ListWallets(ctx, db.ListWalletsParams{
-		UserID: arg.UserID,
-		Limit:  5,
-		Offset: 0,
+	fromUserWallet, err := store.GetWalletByUserIdAndCurrency(ctx, db.GetWalletByUserIdAndCurrencyParams{
+		UserID:   arg.UserID,
+		Currency: arg.FromCurrency,
 	})
 
 	if err != nil {
 		return err
 	}
 
-	fromCurrencyWallet := db.Wallet{}
-	toCurrencyWallet := db.Wallet{}
+	systemUser, err := store.GetUserByUsername(ctx, config.SystemUsername)
 
-	for _, w := range userWallets {
-		if w.Currency == arg.FromCurrency {
-			fromCurrencyWallet = w
-		}
-		if w.Currency == arg.ToCurrency {
-			toCurrencyWallet = w
-		}
+	if err != nil {
+		return err
 	}
 
-	if fromCurrencyWallet.Currency == "" || toCurrencyWallet.Currency == "" {
-		return errors.New("User has not required wallets to convert")
+	toSystemWallet, err := store.GetWalletByUserIdAndCurrency(ctx, db.GetWalletByUserIdAndCurrencyParams{
+		UserID:   systemUser.ID,
+		Currency: arg.ToCurrency,
+	})
+
+	if err != nil {
+		return err
 	}
 
 	requiredAmountToTransferFromUser := determineTransferAmounts(arg.FromCurrency, arg.ToCurrency, arg.Rate)
 
-	if float64(fromCurrencyWallet.Balance) < requiredAmountToTransferFromUser {
+	if float64(fromUserWallet.Balance) < requiredAmountToTransferFromUser {
 		return errors.New("User has not enough balance to convert")
+	}
+
+	if float64(toSystemWallet.Balance) < arg.Amount {
+		return errors.New("System has not enough balance to convert")
 	}
 
 	return nil

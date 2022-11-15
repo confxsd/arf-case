@@ -17,8 +17,8 @@ RETURNING id, user_id, balance, currency, created_at
 `
 
 type AddWalletBalanceParams struct {
-	Amount int64 `json:"amount"`
-	ID     int64 `json:"id"`
+	Amount float64 `json:"amount"`
+	ID     int64   `json:"id"`
 }
 
 func (q *Queries) AddWalletBalance(ctx context.Context, arg AddWalletBalanceParams) (Wallet, error) {
@@ -45,9 +45,9 @@ INSERT INTO wallets (
 `
 
 type CreateWalletParams struct {
-	UserID   int64  `json:"user_id"`
-	Balance  int64  `json:"balance"`
-	Currency string `json:"currency"`
+	UserID   int64   `json:"user_id"`
+	Balance  float64 `json:"balance"`
+	Currency string  `json:"currency"`
 }
 
 func (q *Queries) CreateWallet(ctx context.Context, arg CreateWalletParams) (Wallet, error) {
@@ -184,8 +184,8 @@ RETURNING id, user_id, balance, currency, created_at
 `
 
 type UpdateWalletParams struct {
-	ID      int64 `json:"id"`
-	Balance int64 `json:"balance"`
+	ID      int64   `json:"id"`
+	Balance float64 `json:"balance"`
 }
 
 func (q *Queries) UpdateWallet(ctx context.Context, arg UpdateWalletParams) (Wallet, error) {

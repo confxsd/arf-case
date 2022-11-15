@@ -95,11 +95,11 @@ func (server *Server) listWallets(ctx *gin.Context) {
 		Offset: (req.PageID - 1) * req.PageSize,
 	}
 
-	accounts, err := server.store.ListWallets(ctx, arg)
+	wallets, err := server.store.ListWallets(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, accounts)
+	ctx.JSON(http.StatusCreated, wallets)
 }

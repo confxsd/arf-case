@@ -93,14 +93,14 @@ func TestCreateWalletAPI(t *testing.T) {
 
 }
 
-func requireBodyMatchWallet(t *testing.T, body *bytes.Buffer, account db.Wallet) {
+func requireBodyMatchWallet(t *testing.T, body *bytes.Buffer, wallet db.Wallet) {
 	data, err := ioutil.ReadAll(body)
 	require.NoError(t, err)
 
 	var gotWallet db.Wallet
 	err = json.Unmarshal(data, &gotWallet)
 	require.NoError(t, err)
-	require.Equal(t, account, gotWallet)
+	require.Equal(t, wallet, gotWallet)
 }
 
 func requireBodyMatchWallets(t *testing.T, body *bytes.Buffer, wallets []db.Wallet) {

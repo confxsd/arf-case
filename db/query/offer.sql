@@ -13,3 +13,10 @@ INSERT INTO offers (
 -- name: GetOffer :one
 SELECT * FROM offers
 WHERE id = $1 LIMIT 1;
+
+
+-- name: UpdateOffer :one
+UPDATE offers
+SET status = $2
+WHERE id = $1
+RETURNING *;
