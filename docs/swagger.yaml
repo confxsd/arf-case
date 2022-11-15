@@ -88,7 +88,7 @@ definitions:
   arfcasesqlc.Wallet:
     properties:
       balance:
-        type: integer
+        type: number
       created_at:
         type: string
       currency:
