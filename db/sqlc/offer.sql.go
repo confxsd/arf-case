@@ -22,11 +22,11 @@ INSERT INTO offers (
 `
 
 type CreateOfferParams struct {
-	UserID       int64  `json:"user_id"`
-	FromCurrency string `json:"from_currency"`
-	ToCurrency   string `json:"to_currency"`
-	Rate         string `json:"rate"`
-	Amount       int64  `json:"amount"`
+	UserID       int64   `json:"user_id"`
+	FromCurrency string  `json:"from_currency"`
+	ToCurrency   string  `json:"to_currency"`
+	Rate         float64 `json:"rate"`
+	Amount       float64 `json:"amount"`
 }
 
 func (q *Queries) CreateOffer(ctx context.Context, arg CreateOfferParams) (Offer, error) {

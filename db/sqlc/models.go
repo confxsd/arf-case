@@ -15,8 +15,8 @@ type Offer struct {
 	UserID       int64     `json:"user_id"`
 	FromCurrency string    `json:"from_currency"`
 	ToCurrency   string    `json:"to_currency"`
-	Amount       int64     `json:"amount"`
-	Rate         string    `json:"rate"`
+	Amount       float64   `json:"amount"`
+	Rate         float64   `json:"rate"`
 	Status       string    `json:"status"`
 	CreatedAt    time.Time `json:"created_at"`
 }

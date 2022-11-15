@@ -20,13 +20,13 @@ import (
 
 func TestCreateOfferAPI(t *testing.T) {
 	user := randomUser(t)
-	amount := int64(10)
+	amount := float64(10)
+	rate := float64(18.5)
 
 	wallet := randomWallet(user.ID)
 
 	wallet.Currency = util.USD
 	toCurrency := util.TRY
-	rate := "18.5"
 
 	testCases := []struct {
 		name          string

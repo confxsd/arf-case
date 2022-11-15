@@ -9,10 +9,10 @@ import (
 )
 
 type offerRequest struct {
-	FromCurrency string `json:"from_currency" binding:"required,min=1"`
-	ToCurrency   string `json:"to_currency" binding:"required,min=1"`
-	Rate         string `json:"rate" binding:"required,gt=0"`
-	Amount       int64  `json:"amount" binding:"required,gt=0"`
+	FromCurrency string  `json:"from_currency" binding:"required,min=1"`
+	ToCurrency   string  `json:"to_currency" binding:"required,min=1"`
+	Rate         float64 `json:"rate" binding:"required,gt=0"`
+	Amount       float64 `json:"amount" binding:"required,gt=0"`
 }
 
 func (server *Server) createOffer(ctx *gin.Context) {

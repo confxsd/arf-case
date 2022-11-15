@@ -3,8 +3,8 @@ CREATE TABLE "offers" (
     "user_id" bigint NOT NULL,
     "from_currency" varchar NOT NULL,
     "to_currency" varchar NOT NULL,
-    "amount" bigint NOT NULL,
-    "rate" numeric(6) NOT NULL,
+    "amount" float(32) NOT NULL,
+    "rate" float(32) NOT NULL,
     "status" varchar NOT NULL DEFAULT 'active',
     "created_at" timestamptz NOT NULL DEFAULT (now())
 );
