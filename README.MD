@@ -48,3 +48,8 @@ user should have at least (100/9) = 11.1 USD
 ```
 
 Basically, instead of changing the currency rate, I charged user more according to the markup rate. So user pays more to get the desired amount. There could be alternatives but I thought it would still make us profitable & also practical to implement.
+
+
+### What about freezing the currency rate?
+
+I used `Offer` object with a `timestamp`. System requests the approval of this offer. Since `Offer` has a rate and timestamp in it, I check the timestamp difference when approve request hit. If 3+ minutes have passed, I reject that offer by responding an offer timeout. 
