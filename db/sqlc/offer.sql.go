@@ -14,16 +14,18 @@ INSERT INTO offers (
   user_id,
   from_currency,
   to_currency,
+  rate,
   amount
 ) VALUES (
-  $1, $2, $3, $4
-) RETURNING id, user_id, from_currency, to_currency, amount, status, created_at
+  $1, $2, $3, $4, $5 
+) RETURNING id, user_id, from_currency, to_currency, amount, rate, status, created_at
 `
 
 type CreateOfferParams struct {
 	UserID       int64  `json:"user_id"`
 	FromCurrency string `json:"from_currency"`
 	ToCurrency   string `json:"to_currency"`
+	Rate         string `json:"rate"`
 	Amount       int64  `json:"amount"`
 }
 
@@ -32,6 +34,7 @@ func (q *Queries) CreateOffer(ctx context.Context, arg CreateOfferParams) (Offer
 		arg.UserID,
 		arg.FromCurrency,
 		arg.ToCurrency,
+		arg.Rate,
 		arg.Amount,
 	)
 	var i Offer
@@ -41,6 +44,7 @@ func (q *Queries) CreateOffer(ctx context.Context, arg CreateOfferParams) (Offer
 		&i.FromCurrency,
 		&i.ToCurrency,
 		&i.Amount,
+		&i.Rate,
 		&i.Status,
 		&i.CreatedAt,
 	)

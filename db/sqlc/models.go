@@ -16,6 +16,7 @@ type Offer struct {
 	FromCurrency string    `json:"from_currency"`
 	ToCurrency   string    `json:"to_currency"`
 	Amount       int64     `json:"amount"`
+	Rate         string    `json:"rate"`
 	Status       string    `json:"status"`
 	CreatedAt    time.Time `json:"created_at"`
 }
