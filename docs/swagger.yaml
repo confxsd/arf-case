@@ -43,10 +43,47 @@ definitions:
     required:
     - currency
     type: object
+  api.offerRequest:
+    properties:
+      amount:
+        type: number
+      from_currency:
+        minLength: 1
+        type: string
+      rate:
+        type: number
+      to_currency:
+        minLength: 1
+        type: string
+    required:
+    - amount
+    - from_currency
+    - rate
+    - to_currency
+    type: object
   api.userResponse:
     properties:
       username:
         type: string
+    type: object
+  arfcasesqlc.Offer:
+    properties:
+      amount:
+        type: number
+      created_at:
+        type: string
+      from_currency:
+        type: string
+      id:
+        type: integer
+      rate:
+        type: number
+      status:
+        type: string
+      to_currency:
+        type: string
+      user_id:
+        type: integer
     type: object
   arfcasesqlc.Wallet:
     properties:
@@ -101,6 +138,33 @@ paths:
       summary: Auth user
       tags:
       - user
+  /offers:
+    post:
+      consumes:
+      - application/json
+      description: Create offer to convert currencies
+      parameters:
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Create offer params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/api.offerRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/arfcasesqlc.Offer'
+      summary: Create offer
+      tags:
+      - offer
   /users:
     post:
       consumes:

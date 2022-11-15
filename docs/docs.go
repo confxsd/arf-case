@@ -73,6 +73,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/offers": {
+            "post": {
+                "description": "Create offer to convert currencies",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "offer"
+                ],
+                "summary": "Create offer",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "With the bearer started",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Create offer params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.offerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/arfcasesqlc.Offer"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "post": {
                 "description": "Create user with username \u0026 password",
@@ -261,11 +302,65 @@ const docTemplate = `{
                 }
             }
         },
+        "api.offerRequest": {
+            "type": "object",
+            "required": [
+                "amount",
+                "from_currency",
+                "rate",
+                "to_currency"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "from_currency": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "rate": {
+                    "type": "number"
+                },
+                "to_currency": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
         "api.userResponse": {
             "type": "object",
             "properties": {
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "arfcasesqlc.Offer": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "from_currency": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "rate": {
+                    "type": "number"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "to_currency": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },

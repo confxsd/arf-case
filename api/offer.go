@@ -18,6 +18,19 @@ type offerRequest struct {
 	Amount       float64 `json:"amount" binding:"required,gt=0"`
 }
 
+// @BasePath /
+
+// ArfCase godoc
+// @Summary Create offer
+// @Schemes
+// @Description Create offer to convert currencies
+// @Tags offer
+// @Accept json
+// @Param Authorization header string true "With the bearer started"
+// @Param request body api.offerRequest true "Create offer params"
+// @Produce json
+// @Success 201 {object} arfcasesqlc.Offer
+// @Router /offers [post]
 func (server *Server) createOffer(ctx *gin.Context) {
 	var req offerRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
