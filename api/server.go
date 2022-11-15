@@ -74,15 +74,20 @@ func (server *Server) setupRouter() {
 
 	docs.SwaggerInfo.BasePath = "/"
 
+	// public routes
 	r.GET("/", getting)
 	r.POST("/users", server.createUser)
 	r.POST("/auth", server.auth)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
+	// protected routes
 	authRoutes := r.Group("/").Use(authMiddleware(server.tokenMaker))
-	authRoutes.GET("/me", protected)
+	authRoutes.GET("/me", protected) // to test :D
+
 	authRoutes.POST("/wallets", server.createWallet)
 	authRoutes.GET("/wallets", server.listWallets)
+
+	authRoutes.POST("/offers", server.createOffer)
 
 	server.router = r
 }

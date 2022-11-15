@@ -26,6 +26,7 @@ func TestCreateOfferAPI(t *testing.T) {
 
 	wallet.Currency = util.USD
 	toCurrency := util.TRY
+	rate := "18.5"
 
 	testCases := []struct {
 		name          string
@@ -48,8 +49,10 @@ func TestCreateOfferAPI(t *testing.T) {
 				store.EXPECT().GetWallet(gomock.Any(), gomock.Eq(wallet.ID)).Times(1).Return(wallet, nil)
 
 				arg := db.CreateOfferParams{
+					UserID:       user.ID,
 					FromCurrency: wallet.Currency,
 					ToCurrency:   toCurrency,
+					Rate:         rate,
 					Amount:       amount,
 				}
 				store.EXPECT().CreateOffer(gomock.Any(), gomock.Eq(arg)).Times(1)
