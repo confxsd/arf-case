@@ -101,5 +101,5 @@ func (server *Server) listWallets(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, accounts)
+	ctx.JSON(http.StatusCreated, accounts)
 }

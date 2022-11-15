@@ -54,7 +54,7 @@ func (server *Server) createOffer(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, result)
+	ctx.JSON(http.StatusCreated, result)
 }
 
 /*

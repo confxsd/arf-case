@@ -61,5 +61,5 @@ func (server *Server) createUser(ctx *gin.Context) {
 	}
 
 	rsp := newUserResponse(user)
-	ctx.JSON(http.StatusOK, rsp)
+	ctx.JSON(http.StatusCreated, rsp)
 }
