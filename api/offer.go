@@ -162,12 +162,12 @@ func (server *Server) approveOffer(ctx *gin.Context) {
 		return
 	}
 
-	requiredAmountToTransferFromUser := determineTransferAmounts(offer.FromCurrency, offer.ToCurrency, offer.Rate)
+	requiredAmountToTransferFromUser := determineTransferAmounts(offer.Amount, offer.Rate)
 
 	// TODO: they should be executed in a single transaction
 	result1, err := server.store.TransferTx(ctx, db.TransferTxParams{
 		FromWalletID: userFromWallet.ID,
-		ToWalletID:   toSystemWallet.ID,
+		ToWalletID:   fromSystemWallet.ID,
 		Amount:       requiredAmountToTransferFromUser,
 	})
 
@@ -177,7 +177,7 @@ func (server *Server) approveOffer(ctx *gin.Context) {
 	}
 
 	result2, err := server.store.TransferTx(ctx, db.TransferTxParams{
-		FromWalletID: fromSystemWallet.ID,
+		FromWalletID: toSystemWallet.ID,
 		ToWalletID:   userToWallet.ID,
 		Amount:       offer.Amount,
 	})
@@ -204,11 +204,10 @@ func (server *Server) approveOffer(ctx *gin.Context) {
 	})
 }
 
-func determineTransferAmounts(FromCurrency string, ToCurrency string, Amount float64) float64 {
-	rate := util.GetRate(FromCurrency, ToCurrency)
+func determineTransferAmounts(Amount float64, Rate float64) float64 {
 	markupRate := util.Markup()
 
-	requiredAmountToTransferFromUser := Amount / (rate * (1 - markupRate))
+	requiredAmountToTransferFromUser := Amount / (Rate * (1 - markupRate))
 
 	return requiredAmountToTransferFromUser
 }
@@ -260,7 +259,7 @@ func checkOfferValid(ctx context.Context, arg db.CreateOfferParams, store db.Sto
 		return err
 	}
 
-	requiredAmountToTransferFromUser := determineTransferAmounts(arg.FromCurrency, arg.ToCurrency, arg.Rate)
+	requiredAmountToTransferFromUser := determineTransferAmounts(arg.Amount, arg.Rate)
 
 	if float64(fromUserWallet.Balance) < requiredAmountToTransferFromUser {
 		return errors.New("User has not enough balance to convert")
