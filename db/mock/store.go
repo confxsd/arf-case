@@ -167,6 +167,21 @@ func (mr *MockStoreMockRecorder) GetWallet(arg0, arg1 interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWallet", reflect.TypeOf((*MockStore)(nil).GetWallet), arg0, arg1)
 }
 
+// GetWalletByUserIdAndCurrency mocks base method
+func (m *MockStore) GetWalletByUserIdAndCurrency(arg0 context.Context, arg1 db.GetWalletByUserIdAndCurrencyParams) (db.Wallet, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWalletByUserIdAndCurrency", arg0, arg1)
+	ret0, _ := ret[0].(db.Wallet)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWalletByUserIdAndCurrency indicates an expected call of GetWalletByUserIdAndCurrency
+func (mr *MockStoreMockRecorder) GetWalletByUserIdAndCurrency(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWalletByUserIdAndCurrency", reflect.TypeOf((*MockStore)(nil).GetWalletByIdAndCurrency), arg0, arg1)
+}
+
 // GetWalletForUpdate mocks base method
 func (m *MockStore) GetWalletForUpdate(arg0 context.Context, arg1 int64) (db.Wallet, error) {
 	m.ctrl.T.Helper()
@@ -225,4 +240,19 @@ func (m *MockStore) CreateOffer(arg0 context.Context, arg1 db.CreateOfferParams)
 func (mr *MockStoreMockRecorder) CreateOffer(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateOffer", reflect.TypeOf((*MockStore)(nil).CreateOffer), arg0, arg1)
+}
+
+// GetOffer mocks base method
+func (m *MockStore) GetOffer(arg0 context.Context, arg1 int64) (db.Offer, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetOffer", arg0, arg1)
+	ret0, _ := ret[0].(db.Offer)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetOffer indicates an expected call of GetOffer
+func (mr *MockStoreMockRecorder) GetOffer(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOffer", reflect.TypeOf((*MockStore)(nil).GetOffer), arg0, arg1)
 }

@@ -16,6 +16,10 @@ SELECT * FROM wallets
 WHERE id = $1 LIMIT 1
 FOR NO KEY UPDATE;
 
+-- name: GetWalletByUserIdAndCurrency :one
+SELECT * FROM wallets
+WHERE user_id = $1 and currency = $2 LIMIT 1;
+
 -- name: ListWallets :many
 SELECT * FROM wallets
 WHERE user_id = $1

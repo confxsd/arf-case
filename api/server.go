@@ -88,6 +88,7 @@ func (server *Server) setupRouter() {
 	authRoutes.GET("/wallets", server.listWallets)
 
 	authRoutes.POST("/offers", server.createOffer)
+	authRoutes.POST("/offers/:id/approve", server.approveOffer)
 
 	server.router = r
 }

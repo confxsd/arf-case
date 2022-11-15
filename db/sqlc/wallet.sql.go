@@ -91,6 +91,29 @@ func (q *Queries) GetWallet(ctx context.Context, id int64) (Wallet, error) {
 	return i, err
 }
 
+const getWalletByUserIdAndCurrency = `-- name: GetWalletByUserIdAndCurrency :one
+SELECT id, user_id, balance, currency, created_at FROM wallets
+WHERE user_id = $1 and currency = $2 LIMIT 1
+`
+
+type GetWalletByUserIdAndCurrencyParams struct {
+	UserID   int64  `json:"user_id"`
+	Currency string `json:"currency"`
+}
+
+func (q *Queries) GetWalletByUserIdAndCurrency(ctx context.Context, arg GetWalletByUserIdAndCurrencyParams) (Wallet, error) {
+	row := q.db.QueryRowContext(ctx, getWalletByUserIdAndCurrency, arg.UserID, arg.Currency)
+	var i Wallet
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.Balance,
+		&i.Currency,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const getWalletForUpdate = `-- name: GetWalletForUpdate :one
 SELECT id, user_id, balance, currency, created_at FROM wallets
 WHERE id = $1 LIMIT 1

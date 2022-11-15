@@ -7,6 +7,7 @@ import (
 	db "serhatbxld/arf-case/db/sqlc"
 	"serhatbxld/arf-case/token"
 	"serhatbxld/arf-case/util"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -70,6 +71,60 @@ func (server *Server) createOffer(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, result)
 }
 
+type approveOfferRequest struct {
+	ID int `uri:"id" binding:"required"`
+}
+
+func (server *Server) approveOffer(ctx *gin.Context) {
+	var request approveOfferRequest
+	if err := ctx.ShouldBindUri(&request); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+		return
+	}
+
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+	user, err := server.store.GetUserByUsername(ctx, authPayload.Username)
+
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, errorResponse(err))
+		return
+	}
+
+	offer, err := server.store.GetOffer(ctx, int64(request.ID))
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	if offer.UserID != user.ID {
+		ctx.JSON(http.StatusForbidden, gin.H{"msg": "offer not belong to the user"})
+		return
+	}
+
+	now := time.Now().UTC()
+
+	// offers are valid for 3 minutes
+	if now.Sub(offer.CreatedAt) > time.Minute*3 {
+		ctx.JSON(http.StatusBadRequest, gin.H{"msg": "offer timeout"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "voila",
+		"id":      request.ID,
+	})
+}
+
+func determineTransferAmounts(FromCurrency string, ToCurrency string, Amount float64) float64 {
+	rate := util.GetRate(FromCurrency, ToCurrency)
+	markupRate := util.Markup()
+
+	requiredAmountToTransferFromUser := Amount / (rate * (1 - markupRate))
+
+	return requiredAmountToTransferFromUser
+}
+
 /*
 e.g
 
@@ -119,35 +174,10 @@ func checkOfferValid(ctx context.Context, arg db.CreateOfferParams, store db.Sto
 		return errors.New("User has not required wallets to convert")
 	}
 
-	rate := util.GetRate(arg.FromCurrency, arg.ToCurrency)
-	markupRate := util.Markup()
-
-	requiredAmountToTransferFromUser := arg.Amount / (rate * (1 - markupRate))
+	requiredAmountToTransferFromUser := determineTransferAmounts(arg.FromCurrency, arg.ToCurrency, arg.Rate)
 
 	if float64(fromCurrencyWallet.Balance) < requiredAmountToTransferFromUser {
 		return errors.New("User has not enough balance to convert")
-	}
-
-	systemUser, err := store.GetUserByUsername(ctx, config.SystemUsername)
-	if err != nil {
-		return err
-	}
-
-	systemWallets, err := store.ListWallets(ctx, db.ListWalletsParams{
-		UserID: systemUser.ID,
-		Limit:  5,
-		Offset: 0,
-	})
-
-	systemToCurrencyWallet := db.Wallet{}
-	for _, w := range systemWallets {
-		if w.Currency == arg.ToCurrency {
-			systemToCurrencyWallet = w
-		}
-	}
-
-	if float64(systemToCurrencyWallet.Balance) < arg.Amount {
-		return errors.New("System has not enough balance to convert")
 	}
 
 	return nil

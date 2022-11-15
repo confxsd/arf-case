@@ -50,3 +50,24 @@ func (q *Queries) CreateOffer(ctx context.Context, arg CreateOfferParams) (Offer
 	)
 	return i, err
 }
+
+const getOffer = `-- name: GetOffer :one
+SELECT id, user_id, from_currency, to_currency, amount, rate, status, created_at FROM offers
+WHERE id = $1 LIMIT 1
+`
+
+func (q *Queries) GetOffer(ctx context.Context, id int64) (Offer, error) {
+	row := q.db.QueryRowContext(ctx, getOffer, id)
+	var i Offer
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.FromCurrency,
+		&i.ToCurrency,
+		&i.Amount,
+		&i.Rate,
+		&i.Status,
+		&i.CreatedAt,
+	)
+	return i, err
+}
