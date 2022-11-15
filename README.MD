@@ -53,3 +53,12 @@ Basically, instead of changing the currency rate, I charged user more according 
 ### What about freezing the currency rate?
 
 I used `Offer` object with a `timestamp`. System requests the approval of this offer. Since `Offer` has a rate and timestamp in it, I check the timestamp difference when approve request hit. If 3+ minutes have passed, I reject that offer by responding an offer timeout. 
+
+
+
+### What about tests
+
+I really tried, but couldn't cover all of them due to the lack of time & some platform issues. I still think I could cover most of them over a wider period of time since I implemented the test suits, mocks & stubs. 
+
+
+Cheers ^^
