@@ -11,19 +11,18 @@ type TransferTxParams struct {
 
 // TransferTxResult is the result of the transfer transaction
 type TransferTxResult struct {
-	Transfer   Transfer `json:"transfer"`
-	FromWallet Wallet   `json:"from_wallet"`
-	ToWallet   Wallet   `json:"to_wallet"`
+	Transfer1 Transfer `json:"transfer1"`
+	Transfer2 Transfer `json:"transfer2"`
 }
 
 // TransferTx performs a money transfer from one wallet to the other.
-func (store *SQLStore) TransferTx(ctx context.Context, arg [2]TransferTxParams) ([2]TransferTxResult, error) {
-	var results [2]TransferTxResult
+func (store *SQLStore) TransferTx(ctx context.Context, arg [2]TransferTxParams) (TransferTxResult, error) {
+	var result TransferTxResult
 
 	err := store.execTx(ctx, func(q *Queries) error {
 		var err error
 
-		results[0].Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
+		result.Transfer1, err = q.CreateTransfer(ctx, CreateTransferParams{
 			FromWalletID: arg[0].FromWalletID,
 			ToWalletID:   arg[0].ToWalletID,
 			Amount:       arg[0].Amount,
@@ -32,7 +31,7 @@ func (store *SQLStore) TransferTx(ctx context.Context, arg [2]TransferTxParams) 
 			return err
 		}
 
-		results[1].Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
+		result.Transfer2, err = q.CreateTransfer(ctx, CreateTransferParams{
 			FromWalletID: arg[1].FromWalletID,
 			ToWalletID:   arg[1].ToWalletID,
 			Amount:       arg[1].Amount,
@@ -41,12 +40,18 @@ func (store *SQLStore) TransferTx(ctx context.Context, arg [2]TransferTxParams) 
 			return err
 		}
 
-		results[0].FromWallet, results[0].ToWallet, err = addMoney(ctx, q, arg[0].FromWalletID, -arg[0].Amount, arg[0].ToWalletID, arg[0].Amount)
-		results[1].FromWallet, results[1].ToWallet, err = addMoney(ctx, q, arg[1].FromWalletID, -arg[1].Amount, arg[1].ToWalletID, arg[1].Amount)
+		_, _, err = addMoney(ctx, q, arg[0].FromWalletID, -arg[0].Amount, arg[0].ToWalletID, arg[0].Amount)
+		if err != nil {
+			return err
+		}
+		_, _, err = addMoney(ctx, q, arg[1].FromWalletID, -arg[1].Amount, arg[1].ToWalletID, arg[1].Amount)
+		if err != nil {
+			return err
+		}
 		return err
 	})
 
-	return results, err
+	return result, err
 }
 
 func addMoney(
