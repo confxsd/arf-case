@@ -41,6 +41,7 @@ func TestCreateOfferAPI(t *testing.T) {
 				"from_currency": wallet.Currency,
 				"to_currency":   toCurrency,
 				"amount":        amount,
+				"rate":          rate,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
 				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, user.Username, time.Minute)
