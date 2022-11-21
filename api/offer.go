@@ -75,6 +75,24 @@ type approveOfferRequest struct {
 	ID int `uri:"id" binding:"required"`
 }
 
+type approveOfferResponse struct {
+	Transfers db.TransferTxResult `json:"transfers"`
+	Offer     db.Offer            `json:"offer"`
+}
+
+// @BasePath /
+
+// ArfCase godoc
+// @Summary Approve offer
+// @Schemes
+// @Description Approve offer & complete converting currencies
+// @Tags offer
+// @Accept json
+// @Param Authorization header string true "With the bearer started"
+// @Param id path int true "Offer ID"
+// @Produce json
+// @Success 201 {object} api.approveOfferResponse
+// @Router /offer/{id}/approve [post]
 func (server *Server) approveOffer(ctx *gin.Context) {
 	var request approveOfferRequest
 	if err := ctx.ShouldBindUri(&request); err != nil {
@@ -165,7 +183,7 @@ func (server *Server) approveOffer(ctx *gin.Context) {
 	requiredAmountToTransferFromUser := determineTransferAmounts(offer.Amount, offer.Rate)
 
 	// TODO: they should be executed in a single transaction
-	result1, err := server.store.TransferTx(ctx, [2]db.TransferTxParams{
+	result, err := server.store.TransferTx(ctx, [2]db.TransferTxParams{
 		{
 			FromWalletID: userFromWallet.ID,
 			ToWalletID:   fromSystemWallet.ID,
@@ -194,8 +212,8 @@ func (server *Server) approveOffer(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"result1":      result1,
-		"updatedOffer": updatedOffer,
+		"transfers": result,
+		"offer":     updatedOffer,
 	})
 }
 
