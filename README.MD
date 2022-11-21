@@ -6,7 +6,9 @@ This document provides useful informations about the project and its deployment 
 
 1. [About the project](#about-the-project)
 2. [How to start](#how-to-start)
-3. [Business Logic](#business-logic)
+    - [Run repo via git-clone](#run-repo)
+    - [Test sample endpoints](#sample-endpoints)
+4. [Business Logic](#business-logic)
 
 ## [About the project](#about-the-project)
 
@@ -14,6 +16,8 @@ This project provides services which users are able to login with their credenti
 
 
 ## [How to start](#how-to-start)
+
+### [Run repo via git-clone](#run-repo)
 
 First provide an `app.env` file. Use the `sample.env` format.
 
@@ -24,6 +28,12 @@ To test the system, create a user & wallets with different currencies.
 Use `docker exec -it postgres psql -U ${USER} -d ${DB} -W` to access the db. So you can add balance to the users & modify records.
 
 Run `make build` to build the project with `docker-compose`, then `make up` to run it.
+
+
+### [Sample endpoints](#sample-endpoints)
+I tested endpoints in Postman, so here you can see the sample requests.
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/23017395-02e9cd2a-6e96-4c7a-b5f8-2c6318662f99?action=collection%2Ffork&collection-url=entityId%3D23017395-02e9cd2a-6e96-4c7a-b5f8-2c6318662f99%26entityType%3Dcollection%26workspaceId%3Db5818ecc-197b-4659-a846-3c1c9d4ad497#?env%5Blocal%5D=W3sia2V5IjoiYmFzZV91cmwiLCJ2YWx1ZSI6ImxvY2FsaG9zdDozMzMzIiwiZW5hYmxlZCI6dHJ1ZSwidHlwZSI6ImRlZmF1bHQifV0=)
 
 ## [Business Logic](#business-logic)
 
