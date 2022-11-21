@@ -17,32 +17,36 @@ type TransferTxResult struct {
 }
 
 // TransferTx performs a money transfer from one wallet to the other.
-func (store *SQLStore) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
-	var result TransferTxResult
+func (store *SQLStore) TransferTx(ctx context.Context, arg [2]TransferTxParams) ([2]TransferTxResult, error) {
+	var results [2]TransferTxResult
 
 	err := store.execTx(ctx, func(q *Queries) error {
 		var err error
 
-		result.Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
-			FromWalletID: arg.FromWalletID,
-			ToWalletID:   arg.ToWalletID,
-			Amount:       arg.Amount,
+		results[0].Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
+			FromWalletID: arg[0].FromWalletID,
+			ToWalletID:   arg[0].ToWalletID,
+			Amount:       arg[0].Amount,
 		})
 		if err != nil {
 			return err
 		}
 
-		// if arg.FromAccountID < arg.ToAccountID {
-		// 	result.FromAccount, result.ToAccount, err = addMoney(ctx, q, arg.FromAccountID, -arg.Amount, arg.ToAccountID, arg.Amount)
-		// } else {
-		// 	result.ToAccount, result.FromAccount, err = addMoney(ctx, q, arg.ToAccountID, arg.Amount, arg.FromAccountID, -arg.Amount)
-		// }
+		results[1].Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
+			FromWalletID: arg[1].FromWalletID,
+			ToWalletID:   arg[1].ToWalletID,
+			Amount:       arg[1].Amount,
+		})
+		if err != nil {
+			return err
+		}
 
-		result.FromWallet, result.ToWallet, err = addMoney(ctx, q, arg.FromWalletID, -arg.Amount, arg.ToWalletID, arg.Amount)
+		results[0].FromWallet, results[0].ToWallet, err = addMoney(ctx, q, arg[0].FromWalletID, -arg[0].Amount, arg[0].ToWalletID, arg[0].Amount)
+		results[1].FromWallet, results[1].ToWallet, err = addMoney(ctx, q, arg[1].FromWalletID, -arg[1].Amount, arg[1].ToWalletID, arg[1].Amount)
 		return err
 	})
 
-	return result, err
+	return results, err
 }
 
 func addMoney(

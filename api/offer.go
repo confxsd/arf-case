@@ -165,21 +165,17 @@ func (server *Server) approveOffer(ctx *gin.Context) {
 	requiredAmountToTransferFromUser := determineTransferAmounts(offer.Amount, offer.Rate)
 
 	// TODO: they should be executed in a single transaction
-	result1, err := server.store.TransferTx(ctx, db.TransferTxParams{
-		FromWalletID: userFromWallet.ID,
-		ToWalletID:   fromSystemWallet.ID,
-		Amount:       requiredAmountToTransferFromUser,
-	})
-
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
-		return
-	}
-
-	result2, err := server.store.TransferTx(ctx, db.TransferTxParams{
-		FromWalletID: toSystemWallet.ID,
-		ToWalletID:   userToWallet.ID,
-		Amount:       offer.Amount,
+	result1, err := server.store.TransferTx(ctx, [2]db.TransferTxParams{
+		{
+			FromWalletID: userFromWallet.ID,
+			ToWalletID:   fromSystemWallet.ID,
+			Amount:       requiredAmountToTransferFromUser,
+		},
+		{
+			FromWalletID: toSystemWallet.ID,
+			ToWalletID:   userToWallet.ID,
+			Amount:       offer.Amount,
+		},
 	})
 
 	if err != nil {
@@ -199,7 +195,6 @@ func (server *Server) approveOffer(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"result1":      result1,
-		"result2":      result2,
 		"updatedOffer": updatedOffer,
 	})
 }
