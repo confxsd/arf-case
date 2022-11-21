@@ -179,7 +179,7 @@ func (m *MockStore) GetWalletByUserIdAndCurrency(arg0 context.Context, arg1 db.G
 // GetWalletByUserIdAndCurrency indicates an expected call of GetWalletByUserIdAndCurrency
 func (mr *MockStoreMockRecorder) GetWalletByUserIdAndCurrency(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWalletByUserIdAndCurrency", reflect.TypeOf((*MockStore)(nil).GetWalletByIdAndCurrency), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWalletByUserIdAndCurrency", reflect.TypeOf((*MockStore)(nil).GetWalletByUserIdAndCurrency), arg0, arg1)
 }
 
 // GetWalletForUpdate mocks base method
