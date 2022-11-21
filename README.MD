@@ -9,6 +9,7 @@ This document provides useful informations about the project and its deployment 
     - [Run repo via git-clone](#run-repo)
     - [Test sample endpoints](#sample-endpoints)
 4. [Business Logic](#business-logic)
+5. [Data Models](#data-models)
 
 ## [About the project](#about-the-project)
 
@@ -34,6 +35,12 @@ Run `make build` to build the project with `docker-compose`, then `make up` to r
 I tested endpoints in Postman, so here you can see the sample requests.
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/23017395-02e9cd2a-6e96-4c7a-b5f8-2c6318662f99?action=collection%2Ffork&collection-url=entityId%3D23017395-02e9cd2a-6e96-4c7a-b5f8-2c6318662f99%26entityType%3Dcollection%26workspaceId%3Db5818ecc-197b-4659-a846-3c1c9d4ad497#?env%5Blocal%5D=W3sia2V5IjoiYmFzZV91cmwiLCJ2YWx1ZSI6ImxvY2FsaG9zdDozMzMzIiwiZW5hYmxlZCI6dHJ1ZSwidHlwZSI6ImRlZmF1bHQifV0=)
+
+
+## [System Design](#data-models)
+Basic data blocks used in the system:
+
+![Arf case - Data models](https://user-images.githubusercontent.com/105401425/203045174-62f2a1a4-40f6-49c0-86af-75801a07e65f.png)
 
 ## [Business Logic](#business-logic)
 
