@@ -73,6 +73,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/offer/{id}/approve": {
+            "post": {
+                "description": "Approve offer \u0026 complete converting currencies",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "offer"
+                ],
+                "summary": "Approve offer",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "With the bearer started",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Offer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/api.approveOfferResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/offers": {
             "post": {
                 "description": "Create offer to convert currencies",
@@ -236,6 +275,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "api.approveOfferResponse": {
+            "type": "object",
+            "properties": {
+                "offer": {
+                    "$ref": "#/definitions/arfcasesqlc.Offer"
+                },
+                "transfers": {
+                    "$ref": "#/definitions/arfcasesqlc.TransferTxResult"
+                }
+            }
+        },
         "api.authUserRequest": {
             "type": "object",
             "required": [
@@ -361,6 +411,37 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "arfcasesqlc.Transfer": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "from_wallet_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "to_wallet_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "arfcasesqlc.TransferTxResult": {
+            "type": "object",
+            "properties": {
+                "transfer1": {
+                    "$ref": "#/definitions/arfcasesqlc.Transfer"
+                },
+                "transfer2": {
+                    "$ref": "#/definitions/arfcasesqlc.Transfer"
                 }
             }
         },

@@ -1,4 +1,11 @@
 definitions:
+  api.approveOfferResponse:
+    properties:
+      offer:
+        $ref: '#/definitions/arfcasesqlc.Offer'
+      transfers:
+        $ref: '#/definitions/arfcasesqlc.TransferTxResult'
+    type: object
   api.authUserRequest:
     properties:
       password:
@@ -85,6 +92,26 @@ definitions:
       user_id:
         type: integer
     type: object
+  arfcasesqlc.Transfer:
+    properties:
+      amount:
+        type: number
+      created_at:
+        type: string
+      from_wallet_id:
+        type: integer
+      id:
+        type: integer
+      to_wallet_id:
+        type: integer
+    type: object
+  arfcasesqlc.TransferTxResult:
+    properties:
+      transfer1:
+        $ref: '#/definitions/arfcasesqlc.Transfer'
+      transfer2:
+        $ref: '#/definitions/arfcasesqlc.Transfer'
+    type: object
   arfcasesqlc.Wallet:
     properties:
       balance:
@@ -138,6 +165,32 @@ paths:
       summary: Auth user
       tags:
       - user
+  /offer/{id}/approve:
+    post:
+      consumes:
+      - application/json
+      description: Approve offer & complete converting currencies
+      parameters:
+      - description: With the bearer started
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Offer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/api.approveOfferResponse'
+      summary: Approve offer
+      tags:
+      - offer
   /offers:
     post:
       consumes:
