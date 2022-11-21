@@ -19,7 +19,7 @@ This project provides services which users are able to login with their credenti
 
 ### [Run repo via git-clone](#run-repo)
 
-First provide an `app.env` file. Use the `sample.env` format.
+First provide an `app.env` file. Use the `sample.env` format. You can copy or change the name of  `sample.dev.env`.
 
 System user created initialy as provided in the `app.env` file. It has all the wallets with sufficient balances.
 
