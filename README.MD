@@ -9,7 +9,8 @@ This document provides useful informations about the project and its deployment 
     - [Run repo via git-clone](#run-repo)
     - [Test sample endpoints](#sample-endpoints)
 4. [Business Logic](#business-logic)
-5. [Data Models](#data-models)
+5. [System Design](#data-models)
+
 
 ## [About the project](#about-the-project)
 
@@ -41,6 +42,14 @@ I tested endpoints in Postman, so here you can see the sample requests.
 Basic data blocks used in the system:
 
 ![Arf case - Data models](https://user-images.githubusercontent.com/105401425/203045174-62f2a1a4-40f6-49c0-86af-75801a07e65f.png)
+
+## [API Layers](api-layers)
+`Offer` service implemented as a 2-step process which requires an approval after it. 
+
+Endpoints are isolated to separate DB domains.
+
+![arf case - API Layers - Offer](https://user-images.githubusercontent.com/105401425/203050320-420d1c00-8451-4a87-a76c-736bbdf1210c.png)
+
 
 ## [Business Logic](#business-logic)
 
