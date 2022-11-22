@@ -1,7 +1,7 @@
 include app.env
 
 build:
-	docker compose --env-file ./app.env build
+	docker compose --env-file ./app.env  -p arfcase build
 
 up:
 	docker compose --env-file ./app.env up

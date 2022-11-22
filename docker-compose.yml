@@ -13,8 +13,11 @@ services:
       - ./db/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    networks:
+      - postgres
   api:
     container_name: api
+    image: confxsd/arfcase
     build:
       context: .
       dockerfile: Dockerfile
@@ -23,4 +26,10 @@ services:
     depends_on:
       - postgres
     volumes:
-      - .:/go/src/serhatbxld/arfcase
+      - .:/go/src/confxsd/arf-case
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
