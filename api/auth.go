@@ -1,9 +1,9 @@
 package api
 
 import (
+	db "confxsd/arf-case/db/sqlc"
 	"database/sql"
 	"net/http"
-	db "serhatbxld/arf-case/db/sqlc"
 	"time"
 
 	"github.com/gin-gonic/gin"

@@ -1,15 +1,15 @@
 package api
 
 import (
+	"confxsd/arf-case/util"
 	"os"
-	"serhatbxld/arf-case/util"
 	"testing"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
 
-	db "serhatbxld/arf-case/db/sqlc"
+	db "confxsd/arf-case/db/sqlc"
 )
 
 func newTestServer(t *testing.T, store db.Store) *Server {

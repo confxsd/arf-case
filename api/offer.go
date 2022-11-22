@@ -1,12 +1,12 @@
 package api
 
 import (
+	db "confxsd/arf-case/db/sqlc"
+	"confxsd/arf-case/token"
+	"confxsd/arf-case/util"
 	"context"
 	"errors"
 	"net/http"
-	db "serhatbxld/arf-case/db/sqlc"
-	"serhatbxld/arf-case/token"
-	"serhatbxld/arf-case/util"
 	"time"
 
 	"github.com/gin-gonic/gin"

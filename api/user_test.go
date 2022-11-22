@@ -2,17 +2,17 @@ package api
 
 import (
 	"bytes"
+	"confxsd/arf-case/util"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"reflect"
-	"serhatbxld/arf-case/util"
 	"testing"
 
-	mockdb "serhatbxld/arf-case/db/mock"
-	db "serhatbxld/arf-case/db/sqlc"
+	mockdb "confxsd/arf-case/db/mock"
+	db "confxsd/arf-case/db/sqlc"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"

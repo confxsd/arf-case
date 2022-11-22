@@ -1,10 +1,10 @@
 package api
 
 import (
+	"confxsd/arf-case/token"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"serhatbxld/arf-case/token"
 	"testing"
 	"time"
 

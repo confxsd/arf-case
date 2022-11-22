@@ -1,7 +1,7 @@
 package token
 
 import (
-	"serhatbxld/arf-case/util"
+	"confxsd/arf-case/util"
 	"testing"
 	"time"
 

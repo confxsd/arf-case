@@ -1,10 +1,10 @@
 package arfcasesqlc
 
 import (
+	"confxsd/arf-case/util"
 	"database/sql"
 	"log"
 	"os"
-	"serhatbxld/arf-case/util"
 	"testing"
 )
 

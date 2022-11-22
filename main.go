@@ -4,12 +4,12 @@ import (
 	"context"
 	"database/sql"
 
-	api "serhatbxld/arf-case/api"
-	util "serhatbxld/arf-case/util"
+	api "confxsd/arf-case/api"
+	util "confxsd/arf-case/util"
 
 	"github.com/rs/zerolog/log"
 
-	db "serhatbxld/arf-case/db/sqlc"
+	db "confxsd/arf-case/db/sqlc"
 
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"

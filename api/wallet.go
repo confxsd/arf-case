@@ -1,9 +1,9 @@
 package api
 
 import (
+	db "confxsd/arf-case/db/sqlc"
+	"confxsd/arf-case/token"
 	"net/http"
-	db "serhatbxld/arf-case/db/sqlc"
-	"serhatbxld/arf-case/token"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"

@@ -2,10 +2,10 @@ package api
 
 import (
 	"bytes"
+	mockdb "confxsd/arf-case/db/mock"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	mockdb "serhatbxld/arf-case/db/mock"
 	"testing"
 
 	"github.com/gin-gonic/gin"

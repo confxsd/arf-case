@@ -1,10 +1,10 @@
 package api
 
 import (
+	"confxsd/arf-case/token"
 	"errors"
 	"fmt"
 	"net/http"
-	"serhatbxld/arf-case/token"
 	"strings"
 
 	"github.com/gin-gonic/gin"

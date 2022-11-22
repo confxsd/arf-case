@@ -2,15 +2,15 @@ package api
 
 import (
 	"bytes"
+	mockdb "confxsd/arf-case/db/mock"
+	db "confxsd/arf-case/db/sqlc"
+	"confxsd/arf-case/token"
+	util "confxsd/arf-case/util"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	mockdb "serhatbxld/arf-case/db/mock"
-	db "serhatbxld/arf-case/db/sqlc"
-	"serhatbxld/arf-case/token"
-	util "serhatbxld/arf-case/util"
 	"testing"
 	"time"
 

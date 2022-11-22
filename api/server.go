@@ -8,10 +8,10 @@ import (
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
 
-	db "serhatbxld/arf-case/db/sqlc"
-	docs "serhatbxld/arf-case/docs"
-	"serhatbxld/arf-case/token"
-	util "serhatbxld/arf-case/util"
+	db "confxsd/arf-case/db/sqlc"
+	docs "confxsd/arf-case/docs"
+	"confxsd/arf-case/token"
+	util "confxsd/arf-case/util"
 
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"

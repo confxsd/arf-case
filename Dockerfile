@@ -1,5 +1,9 @@
 FROM golang:1.19-alpine
 
+## Add the wait script to the image
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
+RUN chmod +x /wait
+
 # Set destination for COPY
 WORKDIR /app
 
@@ -31,4 +35,4 @@ EXPOSE 8080
 #ENV HTTP_PORT=8081
 
 # Run
-CMD [ "/arfcase" ]
+CMD /wait && /arfcase

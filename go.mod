@@ -1,4 +1,4 @@
-module serhatbxld/arf-case
+module confxsd/arf-case
 
 go 1.19
 

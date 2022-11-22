@@ -4,7 +4,7 @@ import (
 	"context"
 	"reflect"
 
-	db "serhatbxld/arf-case/db/sqlc"
+	db "confxsd/arf-case/db/sqlc"
 
 	gomock "github.com/golang/mock/gomock"
 	"github.com/google/uuid"

@@ -1,7 +1,7 @@
 package api
 
 import (
-	"serhatbxld/arf-case/util"
+	"confxsd/arf-case/util"
 
 	"github.com/go-playground/validator/v10"
 )
