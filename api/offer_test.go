@@ -21,11 +21,12 @@ import (
 func TestCreateOfferAPI(t *testing.T) {
 	user := randomUser(t)
 	amount := float64(10)
-	rate := float64(18.5)
+	rate := float64(18.61)
 
 	wallet := randomWallet(user.ID)
 
 	wallet.Currency = util.USD
+	wallet.Balance = 100
 	toCurrency := util.TRY
 
 	testCases := []struct {
@@ -48,6 +49,8 @@ func TestCreateOfferAPI(t *testing.T) {
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().GetWallet(gomock.Any(), gomock.Eq(wallet.ID)).Times(1).Return(wallet, nil)
+				store.EXPECT().GetUserByUsername(gomock.Any(), gomock.Eq(user.Username)).Times(1).Return(user, nil)
+				store.EXPECT().GetWalletByUserIdAndCurrency(gomock.Any(), gomock.Eq(wallet.Balance)).Times(1).Return(wallet, nil)
 
 				arg := db.CreateOfferParams{
 					UserID:       user.ID,
@@ -59,7 +62,7 @@ func TestCreateOfferAPI(t *testing.T) {
 				store.EXPECT().CreateOffer(gomock.Any(), gomock.Eq(arg)).Times(1)
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusOK, recorder.Code)
+				require.Equal(t, http.StatusCreated, recorder.Code)
 				requireBodyMatchOffer(t, recorder.Body)
 			},
 		},

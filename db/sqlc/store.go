@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+
+	_ "github.com/lib/pq"
 )
 
 // Store defines all functions to execute db queries and transactions

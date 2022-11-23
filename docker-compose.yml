@@ -11,6 +11,7 @@ services:
       - POSTGRES_PORT=${POSTGRES_PORT}
     volumes:
       - ./db/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh
+      - pgdata:/var/lib/postgresql/data
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     networks:
@@ -26,10 +27,12 @@ services:
     depends_on:
       - postgres
     volumes:
-      - .:/go/src/confxsd/arf-case
+      - apidata:/go/src/confxsd/arfcase
     networks:
       - postgres
-
 networks:
   postgres:
     driver: bridge
+volumes:
+  pgdata:
+  apidata:

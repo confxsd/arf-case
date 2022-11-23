@@ -30,7 +30,7 @@ func TestAuthAPI(t *testing.T) {
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
-					GetUser(gomock.Any(), gomock.Eq(user.Username)).
+					GetUserByUsername(gomock.Any(), gomock.Eq(user.Username)).
 					Times(1).
 					Return(user, nil)
 				store.EXPECT().

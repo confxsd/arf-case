@@ -57,6 +57,11 @@ func TestCreateWalletAPI(t *testing.T) {
 				CreateWallet(gomock.Any(), gomock.Eq(arg)).
 				Times(1).
 				Return(wallet, nil)
+
+			store.EXPECT().
+				GetUserByUsername(gomock.Any(), gomock.Eq(user.Username)).
+				Times(1).
+				Return(user, nil)
 		},
 		checkResponse: func(recorder *httptest.ResponseRecorder) {
 			require.Equal(t, http.StatusOK, recorder.Code)
@@ -151,9 +156,15 @@ func TestListWalletsAPI(t *testing.T) {
 				}
 
 				store.EXPECT().
+					GetUserByUsername(gomock.Any(), gomock.Eq(user.Username)).
+					Times(1).
+					Return(user, nil)
+
+				store.EXPECT().
 					ListWallets(gomock.Any(), gomock.Eq(arg)).
 					Times(1).
 					Return(wallets, nil)
+
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusOK, recorder.Code)

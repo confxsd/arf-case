@@ -4,17 +4,18 @@ import (
 	"confxsd/arf-case/util"
 	"os"
 	"testing"
-	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog/log"
 	"github.com/stretchr/testify/require"
 
 	db "confxsd/arf-case/db/sqlc"
 )
 
 func newTestServer(t *testing.T, store db.Store) *Server {
-	config := util.Config{
-		AccessTokenDuration: time.Minute,
+	config, err := util.LoadConfig("../")
+	if err != nil {
+		log.Fatal().Err(err).Msg("cannot load config")
 	}
 
 	server, err := NewServer(config, store)
